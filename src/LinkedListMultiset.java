@@ -3,6 +3,9 @@ import java.util.*;
 
 public class LinkedListMultiset<T> extends Multiset<T>
 {
+	protected Node<T> mHead;
+	protected Node<T> mTail;
+	
 	public LinkedListMultiset() {
 		// Implement me!
 	} // end of LinkedListMultiset()
@@ -10,6 +13,23 @@ public class LinkedListMultiset<T> extends Multiset<T>
 	
 	public void add(T item) {
 		// Implement me!
+		Node<T> currentNode = null;
+		Node<T> newNode;
+		
+		if(mHead == null)	{
+			mHead = new Node<T>(item);
+			return;
+		}
+		
+		while(mHead.getNext() != null)	{
+    		currentNode = mHead.getNext();
+    	}
+		
+		newNode = new Node<T>(item, currentNode);
+		
+		currentNode.setNext(newNode);
+		
+		
 	} // end of add()
 	
 	
