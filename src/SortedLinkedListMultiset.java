@@ -35,4 +35,53 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
 		// Implement me!
 	} // end of print()
 	
+	private class Node<T>
+	{
+		/** Value of node. */
+	    private T mValue;
+	    /** Reference to next node. */
+	    private Node<T> mNext;
+	    /** Reference to previous node. */
+	    private Node<T> mPrev;
+	    
+	    /**Constructors for head, middle, tail**/
+	    public Node(T value) {
+	        this.mValue = value;
+	        this.mNext = null;
+	        this.mPrev = null;
+	    }
+	    
+	    public Node(T value, Node<T> mPrev) {
+	    	this.mValue = value;
+	    	this.mPrev = mPrev;
+	    	this.mNext = null;
+	    }
+	    
+	    /**Accessors**/
+	    
+	    public T getValue() {
+	        return mValue;
+	    }
+	
+	    public Node<T> getNext() {
+	        return mNext;
+	    }
+	        
+	    public Node<T> getPrev() {
+	        return mPrev;
+	    }
+	
+	    public void setValue(T value) {
+	        this.mValue = value;
+	    }
+	
+	    public void setNext(Node<T> next) {
+	        this.mNext = next;
+	    }
+	    
+	    public void setPrev(Node<T> prev) {
+	        this.mPrev = prev;
+	    }
+	} // end of inner class Node
+	
 } // end of class SortedLinkedListMultiset
