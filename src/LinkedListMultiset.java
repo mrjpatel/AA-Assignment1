@@ -1,7 +1,5 @@
 import java.io.PrintStream;
-import java.util.*;
 			
-
 public class LinkedListMultiset<T> extends Multiset<T>
 {
 	protected Node<T> mHead;
@@ -64,6 +62,21 @@ public class LinkedListMultiset<T> extends Multiset<T>
 	
 	public void removeAll(T item) {
 		// Implement me!
+		Node<T> currentNode = mHead;
+		Node<T> nextNode;
+		Node<T> prevNode;
+		
+		for(int i = 0; i < mSize; i++) {
+			if(item.equals(currentNode.getValue()))	{
+				//Get nodes of either side
+        		nextNode = currentNode.getNext();
+        		prevNode = currentNode.getPrev();
+        		//Set to each other
+        		prevNode.setNext(nextNode);
+        		nextNode.setPrev(prevNode);
+        	}
+	   		currentNode = mHead.getNext();
+		}
 	} // end of removeAll()
 	
 	
