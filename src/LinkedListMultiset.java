@@ -69,6 +69,11 @@ public class LinkedListMultiset<T> extends Multiset<T>
 	
 	public void print(PrintStream out) {
 		// Implement me!
+		Node<T> currentNode = mHead;
+		for(int i = 0; i < mSize; i++) {
+			out.println(currentNode.getValue());
+	   		currentNode = mHead.getNext();
+		}
 	} // end of print()
 	
 	private class Node<T>
