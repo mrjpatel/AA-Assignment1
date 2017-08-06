@@ -3,8 +3,14 @@ import java.util.*;
 
 public class SortedLinkedListMultiset<T> extends Multiset<T>
 {
+	protected Node<T> mHead;
+	protected Node<T> mTail;
+	int mSize;
+	
 	public SortedLinkedListMultiset() {
-		// Implement me!
+		mHead = null;
+		mTail = null;
+		mSize = 0;
 	} // end of SortedLinkedListMultiset()
 	
 	
@@ -22,12 +28,57 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
 	
 	
 	public void removeOne(T item) {
-		// Implement me!
+		//checking if the linked list is empty
+		if(mHead == null){
+			return;
+		}
+		//deletes the head value
+		if(mHead.getValue() == item){
+			mHead = mHead.getNext();
+		}
+		
+		Node<T> cNode = mHead;
+		while(cNode.getNext() != null){
+			if(cNode.getNext().getValue() == item){
+				while (cNode != null) {
+					if (cNode.getValue() == item) {
+	                    Node<T> prevNode = cNode.getPrev();
+	                    prevNode.setNext(cNode.getNext());
+	                    
+	                    if (cNode.getNext() != null) {
+	                    	cNode.getNext().setPrev(prevNode);
+	                    }
+	                    else {
+	                    	mTail = prevNode;
+	                    }
+	                    cNode = null;
+	                    mSize--;
+					}
+					cNode = cNode.getNext();
+				}
+			}
+		}
+		
+		
 	} // end of removeOne()
 	
 	
 	public void removeAll(T item) {
-		// Implement me!
+		Node<T> currentNode = mHead;
+		Node<T> nextNode;
+		Node<T> prevNode;
+		
+		for(int i = 0; i < mSize; i++) {
+			if(item.equals(currentNode.getValue()))	{
+				//Get nodes of either side
+        		nextNode = currentNode.getNext();
+        		prevNode = currentNode.getPrev();
+        		//Set to each other
+        		prevNode.setNext(nextNode);
+        		nextNode.setPrev(prevNode);
+        	}
+	   		currentNode = mHead.getNext();
+		}
 	} // end of removeAll()
 	
 	
@@ -49,6 +100,12 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
 	        this.mValue = value;
 	        this.mNext = null;
 	        this.mPrev = null;
+	    }
+	    
+	    public Node(T value, Node<T> mNext, Node<T> mPrev)	{
+	    	this.mValue = value;
+	    	this.mNext = mNext;
+	    	this.mPrev = mPrev;
 	    }
 	    
 	    public Node(T value, Node<T> mPrev) {
