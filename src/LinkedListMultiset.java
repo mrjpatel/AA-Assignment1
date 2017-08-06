@@ -1,43 +1,59 @@
 import java.io.PrintStream;
 import java.util.*;
+			
 
 public class LinkedListMultiset<T> extends Multiset<T>
 {
 	protected Node<T> mHead;
 	protected Node<T> mTail;
+	int mSize;
 	
 	public LinkedListMultiset() {
 		// Implement me!
+		mHead = null;
+		mTail = null;
+		mSize = 0;
 	} // end of LinkedListMultiset()
 	
 	
 	public void add(T item) {
 		// Implement me!
-		Node<T> currentNode = null;
+		Node<T> currentNode;
 		Node<T> newNode;
 		
 		if(mHead == null)	{
 			mHead = new Node<T>(item);
+			mSize++;
 			return;
 		}
 		
-		while(mHead.getNext() != null)	{
+		currentNode = mHead;
+		
+		while(currentNode.getNext() != null)	{
     		currentNode = mHead.getNext();
     	}
-		
-		newNode = new Node<T>(item, currentNode);
-		
+	
+		newNode = new Node<T>(item, currentNode);	
 		currentNode.setNext(newNode);
-		
+		mTail = newNode;
+		mSize++;
 		
 	} // end of add()
 	
 	
 	public int search(T item) {
 		// Implement me!		
-		
+		int count = 0;
+        Node<T> currentNode = mHead;
+        
+        for(int i = 0; i < mSize; i++) {
+        	if(item.equals(currentNode.getValue()))	{
+        		count++;
+        	}
+        	currentNode = mHead.getNext();
+        }
 		// default return, please override when you implement this method
-		return 0;
+		return count;
 	} // end of add()
 	
 	
@@ -69,12 +85,6 @@ public class LinkedListMultiset<T> extends Multiset<T>
 	        this.mValue = value;
 	        this.mNext = null;
 	        this.mPrev = null;
-	    }
-	    
-	    public Node(T value, Node<T> mNext, Node<T> mPrev)	{
-	    	this.mValue = value;
-	    	this.mNext = mNext;
-	    	this.mPrev = mPrev;
 	    }
 	    
 	    public Node(T value, Node<T> mPrev) {
