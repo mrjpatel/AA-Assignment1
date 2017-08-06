@@ -28,9 +28,9 @@ public class LinkedListMultiset<T> extends Multiset<T>
 		currentNode = mHead;
 		
 		while(currentNode.getNext() != null)	{
-    		currentNode = mHead.getNext();
+    		currentNode = currentNode.getNext();
     	}
-	
+		
 		newNode = new Node<T>(item, currentNode);	
 		currentNode.setNext(newNode);
 		mTail = newNode;
@@ -48,7 +48,7 @@ public class LinkedListMultiset<T> extends Multiset<T>
         	if(item.equals(currentNode.getValue()))	{
         		count++;
         	}
-        	currentNode = mHead.getNext();
+        	currentNode = currentNode.getNext();
         }
 		// default return, please override when you implement this method
 		return count;
@@ -57,12 +57,7 @@ public class LinkedListMultiset<T> extends Multiset<T>
 	
 	public void removeOne(T item) {
 		// Implement me!
-	} // end of removeOne()
-	
-	
-	public void removeAll(T item) {
-		// Implement me!
-		Node<T> currentNode = mHead;
+		Node<T> currentNode;
 		Node<T> nextNode;
 		Node<T> prevNode;
 		
@@ -73,8 +68,11 @@ public class LinkedListMultiset<T> extends Multiset<T>
 		//Reset head
 		if(mHead.getValue().equals(item))	{
 			mHead = mHead.getNext();
+			mSize--;
 			return;
 		}
+		
+		currentNode = mHead;
 		
 		for(int i = 0; i < mSize; i++) {
 			if(item.equals(currentNode.getValue()))	{
@@ -88,6 +86,48 @@ public class LinkedListMultiset<T> extends Multiset<T>
         		if(currentNode == mTail)	{
         			mTail = prevNode;
         		}
+        		mSize--;
+        		return;
+        	}
+	   		currentNode = currentNode.getNext();
+		}
+	} // end of removeOne()
+	
+	
+	public void removeAll(T item) {
+		// Implement me!
+		
+		// Errors still come up when removing everything from list
+		
+		Node<T> currentNode;
+		Node<T> nextNode;
+		Node<T> prevNode;
+		
+		if(mHead == null)	{
+			return;
+		}
+		
+		//Reset head
+		if(mHead.getValue().equals(item))	{
+			mHead = mHead.getNext();
+			mSize--;
+		}
+		
+		currentNode = mHead;
+		
+		for(int i = 0; i < mSize; i++) {
+			if(item.equals(currentNode.getValue()))	{
+				//Get nodes of either side
+        		nextNode = currentNode.getNext();
+        		prevNode = currentNode.getPrev();
+        		//Set to each other
+        		prevNode.setNext(nextNode);
+        		nextNode.setPrev(prevNode);
+        		//Set tail
+        		if(currentNode == mTail)	{
+        			mTail = prevNode;
+        		}
+        		mSize--;
         	}
 	   		currentNode = currentNode.getNext();
 		}
@@ -107,7 +147,6 @@ public class LinkedListMultiset<T> extends Multiset<T>
 	{
 		/** Values of node. */
 	    private T mValue;
-	    private int mTimes;
 	    /** Reference to next node. */
 	    private Node<T> mNext;
 	    /** Reference to previous node. */
