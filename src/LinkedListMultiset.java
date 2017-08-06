@@ -139,7 +139,7 @@ public class LinkedListMultiset<T> extends Multiset<T>
 		Node<T> currentNode = mHead;
 		for(int i = 0; i < mSize; i++) {
 			out.println(currentNode.getValue());
-	   		currentNode = mHead.getNext();
+	   		currentNode = currentNode.getNext();
 		}
 	} // end of print()
 	
