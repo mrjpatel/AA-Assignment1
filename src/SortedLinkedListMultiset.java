@@ -34,38 +34,47 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
 	
 	
 	public void removeOne(T item) {
+		Node<T> cNode = mHead;
+		Node<T> nextNode;
+		Node<T> prevNode;
+		
 		//checking if the linked list is empty
 		if(mHead == null){
 			return;
 		}
 		//deletes the head value
 		if(mHead.getValue() == item){
-			mHead = mHead.getNext();
-		}
-		
-		Node<T> cNode = mHead;
-		while(cNode.getNext() != null){
-			if(cNode.getNext().getValue() == item){
-				while (cNode != null) {
-					if (cNode.getValue() == item) {
-	                    Node<T> prevNode = cNode.getPrev();
-	                    prevNode.setNext(cNode.getNext());
-	                    
-	                    if (cNode.getNext() != null) {
-	                    	cNode.getNext().setPrev(prevNode);
-	                    }
-	                    else {
-	                    	mTail = prevNode;
-	                    }
-	                    cNode = null;
-	                    mSize--;
-					}
-					cNode = cNode.getNext();
-				}
+			//checks if the size of linked list is 1
+			if(mSize == 1){
+				mHead = mTail = null;
 			}
+			else{
+				mHead = mHead.getNext();
+				mHead.setPrev(null);
+			}
+			mSize--;
+			return;
 		}
 		
-		
+		for(int i = 0; i < mSize; i++){
+			if(item.equals(cNode.getValue())){
+				//getting next and previous node
+				nextNode = cNode.getNext();
+        		prevNode = cNode.getPrev();
+        		
+        		//setting next and previous node
+        		prevNode.setNext(nextNode);
+        		nextNode.setPrev(prevNode);
+        		
+        		//checking if the current node is tail
+        		if(cNode == mTail)	{
+        			mTail = prevNode;
+        		}
+        		mSize--;
+        		return;
+			}
+			cNode = cNode.getNext();
+		}		
 	} // end of removeOne()
 	
 	
@@ -114,12 +123,6 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
 	        this.mValue = value;
 	        this.mNext = null;
 	        this.mPrev = null;
-	    }
-	    
-	    public Node(T value, Node<T> mNext, Node<T> mPrev)	{
-	    	this.mValue = value;
-	    	this.mNext = mNext;
-	    	this.mPrev = mPrev;
 	    }
 	    
 	    public Node(T value, Node<T> mPrev) {
