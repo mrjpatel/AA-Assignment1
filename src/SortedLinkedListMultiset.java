@@ -19,11 +19,17 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
 	} // end of add()
 	
 	
-	public int search(T item) {
-		// Implement me!		
-		
-		// default return, please override when you implement this method
-		return 0;
+	public int search(T item) {		
+		int count = 0;
+        Node<T> currentNode = mHead;
+        
+        for(int i = 0; i < mSize; i++) {
+        	if(item.equals(currentNode.getValue()))	{
+        		count++;
+        	}
+        	currentNode = currentNode.getNext();
+        }
+		return count;
 	} // end of add()
 	
 	
