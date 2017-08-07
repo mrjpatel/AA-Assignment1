@@ -124,10 +124,12 @@ public class LinkedListMultiset<T> extends Multiset<T>
         		prevNode = currentNode.getPrev();
         		//Set to each other
         		prevNode.setNext(nextNode);
-        		nextNode.setPrev(prevNode);
         		//Set tail
         		if(currentNode == mTail)	{
         			mTail = prevNode;
+        		}
+        		else	{
+        			nextNode.setPrev(prevNode);
         		}
         		mSize--;
         	}
