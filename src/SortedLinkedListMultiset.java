@@ -100,10 +100,12 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
 	public void print(PrintStream out) {
 		Node<T> cNode = mHead;
 		int count = 0;
+		T item = cNode.getValue();
+		
 		for(int i = 0; i < mSize; i++) {
-			if(out.equals(cNode.getValue())){
-				count++;
-			}
+			if(item.equals(cNode.getValue()))	{
+        		count++;
+        	}
 			out.println(cNode.getValue() + " | " + count);
 	   		cNode = cNode.getNext();
 		}
