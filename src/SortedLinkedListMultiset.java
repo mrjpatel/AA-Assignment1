@@ -15,7 +15,29 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
 	
 	
 	public void add(T item) {
-		// Implement me!
+		Node<T> newNode;
+		Node<T> cNode;
+		
+		//adding value at the start of linked list
+		if(mHead == null){
+			mHead = new Node<T>(item);
+			mTail = mHead;
+			mSize++;
+			return;
+		}
+		
+		cNode = mHead;
+		while(cNode.getNext() != null){
+			cNode = cNode.getNext();
+		}
+		
+		newNode = new Node<T>(item, cNode);	
+		cNode.setNext(newNode);
+		mTail = newNode;
+		mSize++;
+		
+		//needs sorting yet
+		
 	} // end of add()
 	
 	
@@ -103,7 +125,7 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
 		T item = cNode.getValue();
 		
 		for(int i = 0; i < mSize; i++) {
-			if(item.equals(cNode.getValue()))	{
+			if(item.equals(cNode.getValue())){
         		count++;
         	}
 			out.println(cNode.getValue() + " | " + count);
