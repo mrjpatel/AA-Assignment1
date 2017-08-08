@@ -121,7 +121,7 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
 	
 	public void print(PrintStream out) {
 		Node<T> cNode = mHead;
-		int count = 0;
+		int count = 1;
 		T item = cNode.getValue();
 		
 		for(int i = 0; i < mSize; i++) {
