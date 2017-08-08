@@ -19,6 +19,7 @@ public class LinkedListMultiset<T> extends Multiset<T>
 		Node<T> currentNode;
 		Node<T> newNode;
 		
+		//First node
 		if(mHead == null)	{
 			mHead = new Node<T>(item);
 			mSize++;
@@ -27,10 +28,22 @@ public class LinkedListMultiset<T> extends Multiset<T>
 		
 		currentNode = mHead;
 		
+		//Check item/head if value is same
+		if(item.equals(currentNode.getValue()))	{
+			currentNode.setCount(currentNode.getCount() + 1);
+			return;
+		}
+		
+		//Check rest of list
 		while(currentNode.getNext() != null)	{
+			if(item.equals(currentNode.getValue()))	{
+				currentNode.setCount(currentNode.getCount() + 1);
+				return;
+			}
     		currentNode = currentNode.getNext();
     	}
 		
+		//Add new node
 		newNode = new Node<T>(item, currentNode);	
 		currentNode.setNext(newNode);
 		mTail = newNode;
@@ -142,7 +155,7 @@ public class LinkedListMultiset<T> extends Multiset<T>
 		// Implement me!
 		Node<T> currentNode = mHead;
 		for(int i = 0; i < mSize; i++) {
-			out.println(currentNode.getValue());
+			out.println(currentNode.getValue() + printDelim + currentNode.getCount());
 	   		currentNode = currentNode.getNext();
 		}
 	} // end of print()
@@ -151,6 +164,7 @@ public class LinkedListMultiset<T> extends Multiset<T>
 	{
 		/** Values of node. */
 	    private T mValue;
+	    private int count = 1;
 	    /** Reference to next node. */
 	    private Node<T> mNext;
 	    /** Reference to previous node. */
@@ -194,6 +208,14 @@ public class LinkedListMultiset<T> extends Multiset<T>
 	    public void setPrev(Node<T> prev) {
 	        this.mPrev = prev;
 	    }
+
+		public int getCount() {
+			return count;
+		}
+
+		public void setCount(int count) {
+			this.count = count;
+		}
 	} // end of inner class Node
 	
 } // end of class LinkedListMultiset
