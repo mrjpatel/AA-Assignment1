@@ -36,11 +36,11 @@ public class LinkedListMultiset<T> extends Multiset<T>
 		
 		//Check rest of list
 		while(currentNode.getNext() != null)	{
-			if(item.equals(currentNode.getValue()))	{
+    		currentNode = currentNode.getNext();
+    		if(item.equals(currentNode.getValue()))	{
 				currentNode.setCount(currentNode.getCount() + 1);
 				return;
 			}
-    		currentNode = currentNode.getNext();
     	}
 		
 		//Add new node
@@ -80,6 +80,10 @@ public class LinkedListMultiset<T> extends Multiset<T>
 		
 		//Reset head
 		if(mHead.getValue().equals(item))	{
+			if(mHead.getCount() > 1)	{
+				mHead.setCount(mHead.getCount() - 1);
+				return;
+			}
 			mHead = mHead.getNext();
 			mSize--;
 			return;
@@ -89,6 +93,11 @@ public class LinkedListMultiset<T> extends Multiset<T>
 		
 		for(int i = 0; i < mSize; i++) {
 			if(item.equals(currentNode.getValue()))	{
+				//Check if count > 1
+				if(currentNode.getCount() > 1)	{
+					currentNode.setCount(currentNode.getCount() - 1);
+					return;
+				}
 				//Get nodes of either side
         		nextNode = currentNode.getNext();
         		prevNode = currentNode.getPrev();
