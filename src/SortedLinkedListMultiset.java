@@ -27,8 +27,17 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
 		}
 		
 		cNode = mHead;
+		if(item.equals(cNode.getValue()))	{
+			cNode.setCount(cNode.getCount() + 1);
+			return;
+		}
+		
 		while(cNode.getNext() != null){
 			cNode = cNode.getNext();
+			if(item.equals(cNode.getValue()))	{
+				cNode.setCount(cNode.getCount() + 1);
+				return;
+			}
 		}
 		
 		newNode = new Node<T>(item, cNode);	
@@ -43,20 +52,20 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
 	
 	public int search(T item) {		
 		int count = 0;
-        Node<T> currentNode = mHead;
+        Node<T> cNode = mHead;
         
         for(int i = 0; i < mSize; i++) {
-        	if(item.equals(currentNode.getValue()))	{
+        	if(item.equals(cNode.getValue()))	{
         		count++;
         	}
-        	currentNode = currentNode.getNext();
+        	cNode = cNode.getNext();
         }
 		return count;
 	} // end of add()
 	
 	
 	public void removeOne(T item) {
-		Node<T> cNode = mHead;
+		Node<T> cNode;
 		Node<T> nextNode;
 		Node<T> prevNode;
 		
@@ -65,32 +74,40 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
 			return;
 		}
 		//deletes the head value
-		if(mHead.getValue() == item){
+		if(mHead.getValue().equals(item)){
 			//checks if the size of linked list is 1
-			if(mSize == 1){
-				mHead = mTail = null;
+			if(mHead.getCount() > 1){
+				mHead.setCount(mHead.getCount() - 1);
+				return;
 			}
-			else{
-				mHead = mHead.getNext();
-				mHead.setPrev(null);
-			}
+			mHead = mHead.getNext();
+			mHead.setPrev(null);
 			mSize--;
 			return;
 		}
 		
+		cNode = mHead;
 		for(int i = 0; i < mSize; i++){
 			if(item.equals(cNode.getValue())){
+				
+				if(cNode.getCount() > 1){
+					cNode.setCount(cNode.getCount() - 1);
+					return;
+				}
+				
 				//getting next and previous node
 				nextNode = cNode.getNext();
         		prevNode = cNode.getPrev();
         		
         		//setting next and previous node
         		prevNode.setNext(nextNode);
-        		nextNode.setPrev(prevNode);
         		
         		//checking if the current node is tail
         		if(cNode == mTail)	{
         			mTail = prevNode;
+        		}
+        		else {
+        			nextNode.setPrev(prevNode);
         		}
         		mSize--;
         		return;
@@ -101,34 +118,47 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
 	
 	
 	public void removeAll(T item) {
-		Node<T> currentNode = mHead;
+		
 		Node<T> nextNode;
 		Node<T> prevNode;
 		
+		if(mHead == null){
+			return;
+		}
+		
+		if(mHead.getValue().equals(item))	{
+			mHead = mHead.getNext();
+			mSize--;
+		}
+		
+		Node<T> cNode = mHead;
+		
 		for(int i = 0; i < mSize; i++) {
-			if(item.equals(currentNode.getValue()))	{
+			if(item.equals(cNode.getValue()))	{
 				//Get nodes of either side
-        		nextNode = currentNode.getNext();
-        		prevNode = currentNode.getPrev();
+        		nextNode = cNode.getNext();
+        		prevNode = cNode.getPrev();
         		//Set to each other
         		prevNode.setNext(nextNode);
-        		nextNode.setPrev(prevNode);
+        		if(cNode == mTail)	{
+        			mTail = prevNode;
+        		}
+        		else	{
+        			nextNode.setPrev(prevNode);
+        		}
+        		mSize--;
+        		
         	}
-	   		currentNode = mHead.getNext();
+	   		cNode = mHead.getNext();
 		}
 	} // end of removeAll()
 	
 	
 	public void print(PrintStream out) {
 		Node<T> cNode = mHead;
-		int count = 1;
-		T item = cNode.getValue();
 		
 		for(int i = 0; i < mSize; i++) {
-			if(item.equals(cNode.getValue())){
-        		count++;
-        	}
-			out.println(cNode.getValue() + " | " + count);
+			out.println(cNode.getValue() + " | " + cNode.getCount());
 	   		cNode = cNode.getNext();
 		}
 	} // end of print()
@@ -137,6 +167,7 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
 	{
 		/** Value of node. */
 	    private T mValue;
+	    private int count = 1;
 	    /** Reference to next node. */
 	    private Node<T> mNext;
 	    /** Reference to previous node. */
@@ -168,10 +199,10 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
 	    public Node<T> getPrev() {
 	        return mPrev;
 	    }
-	
-	    public void setValue(T value) {
-	        this.mValue = value;
-	    }
+	    
+	    public int getCount() {
+			return count;
+		}
 	
 	    public void setNext(Node<T> next) {
 	        this.mNext = next;
@@ -180,6 +211,10 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
 	    public void setPrev(Node<T> prev) {
 	        this.mPrev = prev;
 	    }
+	    
+		public void setCount(int count) {
+			this.count = count;
+		}
 	} // end of inner class Node
 	
 } // end of class SortedLinkedListMultiset
