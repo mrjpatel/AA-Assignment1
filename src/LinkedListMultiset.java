@@ -57,12 +57,16 @@ public class LinkedListMultiset<T> extends Multiset<T>
 		int count = 0;
         Node<T> currentNode = mHead;
         
-        for(int i = 0; i < mSize; i++) {
-        	if(item.equals(currentNode.getValue()))	{
-        		count++;
-        	}
-        	currentNode = currentNode.getNext();
-        }
+        if(item.equals(currentNode.getValue()))	{
+			count++;
+		}
+        
+        while(currentNode.getNext() != null)	{
+    		if(item.equals(currentNode.getValue()))	{
+				count++;
+			}
+    		currentNode = currentNode.getNext();
+    	}
 		// default return, please override when you implement this method
 		return count;
 	} // end of add()
@@ -120,8 +124,6 @@ public class LinkedListMultiset<T> extends Multiset<T>
 	
 	public void removeAll(T item) {
 		// Implement me!
-		
-		// Errors still come up when removing everything from list
 		
 		Node<T> currentNode;
 		Node<T> nextNode;
