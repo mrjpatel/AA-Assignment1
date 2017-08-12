@@ -58,14 +58,14 @@ public class LinkedListMultiset<T> extends Multiset<T>
         Node<T> currentNode = mHead;
         
         if(item.equals(currentNode.getValue()))	{
-			count++;
+			count = currentNode.getCount();
 		}
         
         while(currentNode.getNext() != null)	{
-    		if(item.equals(currentNode.getValue()))	{
-				count++;
-			}
     		currentNode = currentNode.getNext();
+    		if(item.equals(currentNode.getValue()))	{
+    			count = currentNode.getCount();
+			}
     	}
 		// default return, please override when you implement this method
 		return count;
