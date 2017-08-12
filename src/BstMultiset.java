@@ -27,7 +27,7 @@ public class BstMultiset<T> extends Multiset<T>
 				return;
 			}
 			
-			if(currentNode.compareTo(item) == -1)	{
+			if(currentNode.compareTo(item) < 0)	{
 				if(currentNode.getLeft() == null)	{
 					newNode = new Node<T>(item);
 					currentNode.setLeft(newNode);
@@ -38,7 +38,7 @@ public class BstMultiset<T> extends Multiset<T>
 				}
 			}
 			
-			if(currentNode.compareTo(item) == 1)	{
+			if(currentNode.compareTo(item) > 0)	{
 				if(currentNode.getRight() == null)	{
 					newNode = new Node<T>(item);
 					currentNode.setRight(newNode);
