@@ -71,8 +71,24 @@ public class BstMultiset<T> extends Multiset<T>
 
 
 	public void print(PrintStream out) {
-		// Implement me!
+		if(mHead == null) {
+			return;
+		}
+		
+		printAllNodes(out, mHead);
+		
 	} // end of print()
+	
+	public void printAllNodes(PrintStream out, Node<T> node)	{
+		if(node == null) {
+			return;
+		}
+		//Print all nodes recursively
+		out.println(node.getValue() + printDelim + node.getCount());
+		
+		printAllNodes(out, node.getLeft());
+		printAllNodes(out, node.getRight());
+	}
 	
 	private class Node<T> implements Comparable<T>
 	{
