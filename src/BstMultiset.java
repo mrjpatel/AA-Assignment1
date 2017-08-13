@@ -86,6 +86,8 @@ public class BstMultiset<T> extends Multiset<T>
 
 	public void removeOne(T item) {
 		Node<T> node;
+		Node<T> tempNode = null;
+		Node<T> nextNode;
 		
 		if(mHead == null) {
 			return;
@@ -104,6 +106,7 @@ public class BstMultiset<T> extends Multiset<T>
 				if(node.getLeft() == null) {
 					return;
 				} else	{
+					tempNode = node;
 					node = node.getLeft();
 					continue;
 				}
@@ -111,13 +114,60 @@ public class BstMultiset<T> extends Multiset<T>
 				if(node.getRight() == null) {
 					return;
 				} else	{
+					tempNode = node;
 					node = node.getRight();
 				}
 			}
 		}
 		
 		
-		
+		if(node.getLeft() == null && node.getRight() == null)	{
+			if (node == mHead)	{
+				mHead = null;
+				return;
+			}
+			
+			if(tempNode.getLeft().equals(node)) {
+				tempNode.setLeft(null);
+			}
+			else if (tempNode.getRight().equals(node))	{
+				tempNode.setRight(null);
+			}
+			
+		}
+		else if (node.getLeft() == null && node.getRight() != null)	{
+			nextNode = node.getRight();
+			
+			if(tempNode.getLeft().equals(node)) {
+				tempNode.setLeft(nextNode);
+			}
+			else if (tempNode.getRight().equals(node))	{
+				tempNode.setRight(nextNode);
+			}
+		}
+		else if (node.getRight() == null && node.getLeft() != null) {
+			nextNode = node.getLeft();
+			
+			if(tempNode.getLeft().equals(node)) {
+				tempNode.setLeft(nextNode);
+			}
+			else if (tempNode.getRight().equals(node))	{
+				tempNode.setRight(nextNode);
+			}
+		}
+		else	{
+			nextNode = node.getRight();
+			while(nextNode != null)	{
+				nextNode = nextNode.getLeft();
+			}
+			if(tempNode.getLeft().equals(node)) {
+				tempNode.setLeft(nextNode);
+			}
+			else if (tempNode.getRight().equals(node))	{
+				tempNode.setRight(nextNode);
+			}
+		}
+			
 		return;
 	} // end of removeOne()
 	
