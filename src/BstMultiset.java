@@ -85,7 +85,40 @@ public class BstMultiset<T> extends Multiset<T>
 	} // end of add()
 
 	public void removeOne(T item) {
-		// Implement me!
+		Node<T> node;
+		
+		if(mHead == null) {
+			return;
+		}
+		
+		node = mHead;
+		
+		while(node != null)	{
+			if(item.equals(node.getValue()))	{
+				if(node.getCount() > 1)	{
+					node.setCount(node.getCount() - 1);
+					return;
+				}
+				break;
+			} else if(node.compareTo(item) < 0)	{
+				if(node.getLeft() == null) {
+					return;
+				} else	{
+					node = node.getLeft();
+					continue;
+				}
+			} else if (node.compareTo(item) > 0)	{
+				if(node.getRight() == null) {
+					return;
+				} else	{
+					node = node.getRight();
+				}
+			}
+		}
+		
+		
+		
+		return;
 	} // end of removeOne()
 	
 	
