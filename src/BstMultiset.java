@@ -20,7 +20,7 @@ public class BstMultiset<T> extends Multiset<T>
 		
 		currentNode = mHead;
 		
-		while(true)	{
+		while(currentNode != null)	{
 			//If item the same, increase count
 			if(currentNode.compareTo(item) == 0)	{
 				currentNode.setCount(currentNode.getCount() +1);
@@ -54,11 +54,35 @@ public class BstMultiset<T> extends Multiset<T>
 
 	public int search(T item) {
 		// Implement me!
+		Node<T> node;
 		
-		// default return, please override when you implement this method
+		if(mHead == null) {
+			return 0;
+		}
+		
+		node = mHead;
+		
+		while(node != null)	{
+			if(item.equals(node.getValue()))	{
+				return node.getCount();
+			} else if(node.compareTo(item) < 0)	{
+				if(node.getLeft() == null) {
+					return 0;
+				} else	{
+					node = node.getLeft();
+					continue;
+				}
+			} else if (node.compareTo(item) > 0)	{
+				if(node.getRight() == null) {
+					return 0;
+				} else	{
+					node = node.getRight();
+				}
+			}
+		}
+		
 		return 0;
 	} // end of add()
-
 
 	public void removeOne(T item) {
 		// Implement me!
@@ -78,6 +102,8 @@ public class BstMultiset<T> extends Multiset<T>
 		printAllNodes(out, mHead);
 		
 	} // end of print()
+	
+	//PRINT HELPER FUNCTION
 	
 	public void printAllNodes(PrintStream out, Node<T> node)	{
 		if(node == null) {
@@ -135,7 +161,7 @@ public class BstMultiset<T> extends Multiset<T>
 
 		@Override
 		public int compareTo(T item) {
-			return this.mValue.toString().compareTo(item.toString());
+			return getValue().toString().compareTo(item.toString());
 		}
 
 		public int getCount() {
