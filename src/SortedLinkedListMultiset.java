@@ -78,6 +78,10 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
 		int count = 0;
         Node<T> currentNode = mHead;
         
+        if(mSize == 0){
+        	return count;
+        }
+        
         if(item.equals(currentNode.getValue()))	{
 			count = currentNode.getCount();
 		}
@@ -147,20 +151,21 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
 	
 	
 	public void removeAll(T item) {
-		
+		Node<T> cNode;
 		Node<T> nextNode;
 		Node<T> prevNode;
 		
-		if(mHead == null){
+		if(mHead == null)	{
 			return;
 		}
 		
+		//Reset head
 		if(mHead.getValue().equals(item))	{
 			mHead = mHead.getNext();
 			mSize--;
 		}
 		
-		Node<T> cNode = mHead;
+		cNode = mHead;
 		
 		for(int i = 0; i < mSize; i++) {
 			if(item.equals(cNode.getValue()))	{
@@ -169,6 +174,7 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
         		prevNode = cNode.getPrev();
         		//Set to each other
         		prevNode.setNext(nextNode);
+        		//Set tail
         		if(cNode == mTail)	{
         			mTail = prevNode;
         		}
@@ -176,9 +182,8 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
         			nextNode.setPrev(prevNode);
         		}
         		mSize--;
-        		
         	}
-	   		cNode = mHead.getNext();
+	   		cNode = cNode.getNext();
 		}
 	} // end of removeAll()
 	
