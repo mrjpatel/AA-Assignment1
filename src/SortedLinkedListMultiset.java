@@ -45,10 +45,29 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
 		mTail = newNode;
 		mSize++;
 		
-		//needs sorting yet
+		sort();
 		
 	} // end of add()
 	
+	public void sort() {
+
+		Node<T> cNode = mHead;
+		
+		while(cNode != null){
+			Node <T> smallValue = cNode;
+			
+			for(Node<T> nextNode = cNode; nextNode != null; nextNode = nextNode.getNext()){
+				if (smallValue.getValue().toString().compareTo(nextNode.getValue().toString()) > 0){
+					smallValue = nextNode;
+				}
+				
+				Node<T> temp = new Node<T>(cNode.getValue());
+				cNode.setValue(smallValue.getValue());
+				smallValue.setValue(temp.getValue());
+			}
+			cNode = cNode.getNext();
+		}
+	}
 	
 	public int search(T item) {		
 		int count = 0;
@@ -203,6 +222,10 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
 	    public int getCount() {
 			return count;
 		}
+	    
+	    public void setValue(T value) {
+	        this.mValue = value;
+	    }
 	
 	    public void setNext(Node<T> next) {
 	        this.mNext = next;
