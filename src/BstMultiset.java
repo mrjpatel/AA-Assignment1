@@ -124,14 +124,12 @@ public class BstMultiset<T> extends Multiset<T>
 	
 	
 	public void removeAll(T item) {
-		Node<T> currentNode = mHead;
 		
-		if(mHead != null && mHead.getLeft() == null && mHead.getRight() == null)	{
-			mHead = null;
+		if(mHead == null)	{
 			return;
 		}
 		
-		currentNode = removeNodes(currentNode, item);
+		mHead = removeNodes(mHead, item);
 		
 	} // end of removeAll()
 	
