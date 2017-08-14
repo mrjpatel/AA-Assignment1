@@ -73,12 +73,16 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
 		int count = 0;
         Node<T> cNode = mHead;
         
-        for(int i = 0; i < mSize; i++) {
-        	if(item.equals(cNode.getValue()))	{
-        		count++;
-        	}
-        	cNode = cNode.getNext();
-        }
+    	if(item.equals(cNode.getValue())){
+    		count = cNode.getCount();
+    	}
+    	
+    	while(cNode.getNext() != null){
+    		cNode = cNode.getNext();
+    		if(item.equals(cNode.getValue()))	{
+    			count = cNode.getCount();
+			}
+    	}
 		return count;
 	} // end of add()
 	
