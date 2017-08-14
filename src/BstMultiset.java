@@ -86,8 +86,6 @@ public class BstMultiset<T> extends Multiset<T>
 
 	public void removeOne(T item) {
 		Node<T> node;
-		Node<T> tempNode = null;
-		Node<T> nextNode;
 		
 		if(mHead == null) {
 			return;
@@ -101,12 +99,14 @@ public class BstMultiset<T> extends Multiset<T>
 					node.setCount(node.getCount() - 1);
 					return;
 				}
-				break;
+				else	{
+					removeAll(item);
+					return;
+				}
 			} else if(node.compareTo(item) < 0)	{
 				if(node.getLeft() == null) {
 					return;
 				} else	{
-					tempNode = node;
 					node = node.getLeft();
 					continue;
 				}
@@ -114,67 +114,64 @@ public class BstMultiset<T> extends Multiset<T>
 				if(node.getRight() == null) {
 					return;
 				} else	{
-					tempNode = node;
 					node = node.getRight();
 				}
 			}
 		}
 		
-		
-		if(node.getLeft() == null && node.getRight() == null)	{
-			if (node == mHead)	{
-				mHead = null;
-				return;
-			}
-			
-			if(tempNode.getLeft().equals(node)) {
-				tempNode.setLeft(null);
-			}
-			else if (tempNode.getRight().equals(node))	{
-				tempNode.setRight(null);
-			}
-			
-		}
-		else if (node.getLeft() == null && node.getRight() != null)	{
-			nextNode = node.getRight();
-			
-			if(tempNode.getLeft().equals(node)) {
-				tempNode.setLeft(nextNode);
-			}
-			else if (tempNode.getRight().equals(node))	{
-				tempNode.setRight(nextNode);
-			}
-		}
-		else if (node.getRight() == null && node.getLeft() != null) {
-			nextNode = node.getLeft();
-			
-			if(tempNode.getLeft().equals(node)) {
-				tempNode.setLeft(nextNode);
-			}
-			else if (tempNode.getRight().equals(node))	{
-				tempNode.setRight(nextNode);
-			}
-		}
-		else	{
-			nextNode = node.getRight();
-			while(nextNode != null)	{
-				nextNode = nextNode.getLeft();
-			}
-			if(tempNode.getLeft().equals(node)) {
-				tempNode.setLeft(nextNode);
-			}
-			else if (tempNode.getRight().equals(node))	{
-				tempNode.setRight(nextNode);
-			}
-		}
-			
 		return;
 	} // end of removeOne()
 	
 	
 	public void removeAll(T item) {
-		// Implement me!
+		Node<T> currentNode = mHead;
+		
+		if(mHead != null && mHead.getLeft() == null && mHead.getRight() == null)	{
+			mHead = null;
+			return;
+		}
+		
+		currentNode = removeNodes(currentNode, item);
+		
 	} // end of removeAll()
+	
+	//REMOVE HELPER FUNCTION
+	
+	public Node<T> removeNodes(Node<T> node, T item) {
+		if (node == null)	{
+			return node;
+		}
+		
+		if(node.compareTo(item) < 0)	{
+			node.setLeft(removeNodes(node.getLeft(), item));
+		}
+		else if (node.compareTo(item) > 0)	{
+			node.setRight(removeNodes(node.getRight(), item));
+		}
+		else	{
+			if(node.getLeft() == null)	{
+				return node.getRight();
+			}
+			else if (node.getRight() == null)	{
+				return node.getLeft();
+			}
+			
+			node.setValue(minValue(node.getRight()));
+			node.setRight(removeNodes(node.getRight(), item));
+		}
+		
+		return node;
+			
+	}
+	
+	public T minValue(Node<T> node)	{
+		T item = node.getValue();
+		while(node.getLeft() != null)	{
+			item = node.getLeft().getValue();
+			node = node.getLeft();
+		}
+		return item;
+	}
 
 
 	public void print(PrintStream out) {
