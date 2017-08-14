@@ -62,8 +62,13 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
 				}
 				
 				Node<T> temp = new Node<T>(cNode.getValue());
+				int tempCount = cNode.getCount();
+				
 				cNode.setValue(smallValue.getValue());
+				cNode.setCount(smallValue.getCount());
+				
 				smallValue.setValue(temp.getValue());
+				smallValue.setCount(tempCount);
 			}
 			cNode = cNode.getNext();
 		}
@@ -71,19 +76,20 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
 	
 	public int search(T item) {		
 		int count = 0;
-        Node<T> cNode = mHead;
+        Node<T> currentNode = mHead;
         
-    	if(item.equals(cNode.getValue())){
-    		count = cNode.getCount();
-    	}
-    	
-    	while(cNode.getNext() != null){
-    		cNode = cNode.getNext();
-    		if(item.equals(cNode.getValue()))	{
-    			count = cNode.getCount();
+        if(item.equals(currentNode.getValue()))	{
+			count = currentNode.getCount();
+		}
+        
+        while(currentNode.getNext() != null)	{
+    		currentNode = currentNode.getNext();
+    		if(item.equals(currentNode.getValue()))	{
+    			count = currentNode.getCount();
 			}
-    	}
-		return count;
+        }
+    		return count;
+    		
 	} // end of add()
 	
 	
