@@ -136,6 +136,8 @@ public class BstMultiset<T> extends Multiset<T>
 	//REMOVE HELPER FUNCTION
 	
 	public Node<T> removeNodes(Node<T> node, T item) {
+		Node<T> tempNode;
+		
 		if (node == null)	{
 			return node;
 		}
@@ -147,28 +149,29 @@ public class BstMultiset<T> extends Multiset<T>
 			node.setRight(removeNodes(node.getRight(), item));
 		}
 		else	{
-			if(node.getLeft() == null)	{
-				return node.getRight();
-			}
-			else if (node.getRight() == null)	{
+			if(node.getRight() == null)	{
 				return node.getLeft();
 			}
+			else if (node.getLeft() == null)	{
+				return node.getRight();
+			}
 			
-			node.setValue(minValue(node.getRight()));
-			node.setRight(removeNodes(node.getRight(), item));
+			tempNode = minNode(node.getRight());
+			node.setValue(tempNode.getValue());
+			node.setCount(tempNode.getCount());
+			
+			node.setRight(removeNodes(node.getRight(), node.getValue()));
 		}
 		
 		return node;
 			
 	}
 	
-	public T minValue(Node<T> node)	{
-		T item = node.getValue();
+	public Node<T> minNode(Node<T> node)	{
 		while(node.getLeft() != null)	{
-			item = node.getLeft().getValue();
 			node = node.getLeft();
 		}
-		return item;
+		return node;
 	}
 
 
