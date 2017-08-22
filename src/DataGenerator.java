@@ -1,49 +1,48 @@
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
 
 public class DataGenerator {
-	
+		
 	private static Scanner sc = new Scanner(System.in);
 
 	public static void main(String[] args) {
-		if (args.length != 2) {
+		if (args.length != 3) {
 			inputs();
 		}
 		
 		String fileNameAdd;
-		String fileNameRem;
-		System.out.println("Enter filename for additions:");
+		System.out.println("Enter filename:");
 		fileNameAdd = sc.nextLine();
-		System.out.println("Enter filename for removals/scenarios:");
-		fileNameRem = sc.nextLine();
+		
+		
+		ArrayList<String> rand = new ArrayList<String>();
 		
 		int numOfStr = Integer.parseInt(args[0]);
-		String randString;
-		String[] randArr;
-		randArr = new String[numOfStr];
+		double numOfScen = Double.parseDouble(args[1]) /100;
+		int indexes = (int)Math.floor(numOfScen * numOfStr);
 		
-		for(int i = 0; i < numOfStr; i++)	{
-			randString = randomStringGen();
-			randArr[i] = randString;
-		}
 		
-		try{
-		    PrintWriter writer = new PrintWriter(fileNameAdd);
-		    for(int i = 0; i < numOfStr; i++)	{
-		    	writer.print("A ");
-		    	writer.println(randArr[i]);
-			}
-		    writer.close();
+		randStringArr(rand, numOfStr);
+		
+		try {
+			PrintWriter writer = new PrintWriter(fileNameAdd);
+			printAdd(rand, writer);
+			Collections.shuffle(rand);
+			printScenario(rand, writer, args[2], indexes);
+			writer.close();
 		} catch (IOException e) {
-		   e.printStackTrace();
+			e.printStackTrace();
 		}
+		
 
 	}
 	
 	public static void inputs()	{
-		System.out.println("Arguments: <num of strings to gen> <percentage of removals> ");
-		System.out.println("i.e. 100 75");
+		System.out.println("Arguments: <num of strings to gen> <percentage of removals> <scenario>");
+		System.out.println("i.e. 100 75 S");
+		System.out.println("Possible scenarios: S, RO, RA");
 		System.exit(0);
 	}
 	
@@ -58,5 +57,27 @@ public class DataGenerator {
         String saltStr = salt.toString();
         return saltStr;
 	}
-
+	
+	public static void randStringArr(ArrayList<String> list, int numOfStr)	{
+		String randString;
+		for(int i = 0; i < numOfStr; i++)	{
+			randString = randomStringGen();
+			list.add(randString);
+		}
+	}
+	
+	public static void printAdd(ArrayList<String> list, PrintWriter writer)	{
+		for(String i : list)	{
+	    	writer.print("A ");
+	    	writer.println(i);
+		}
+	}
+	
+	public static void printScenario(ArrayList<String> list, PrintWriter writer, String scenario, int index)	{
+		//List must be randomised first
+		for(int i = 0; i < index; i++)	{
+			writer.print(scenario + " ");
+			writer.println(list.get(i));
+		}
+	}	
 }
