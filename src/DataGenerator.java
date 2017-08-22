@@ -1,4 +1,3 @@
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
@@ -30,8 +29,12 @@ public class DataGenerator {
 			PrintWriter writer = new PrintWriter(fileNameAdd);
 			printAdd(rand, writer);
 			Collections.shuffle(rand);
-			printScenario(rand, writer, args[2], indexes);
-			writer.close();
+			if(args[2].equalsIgnoreCase("a"))	{
+				writer.close();
+			} else	{
+				printScenario(rand, writer, args[2], indexes);
+				writer.close();
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -42,9 +45,11 @@ public class DataGenerator {
 	public static void inputs()	{
 		System.out.println("Arguments: <num of strings to gen> <percentage of removals> <scenario>");
 		System.out.println("i.e. 100 75 S");
-		System.out.println("Possible scenarios: S, RO, RA");
+		System.out.println("Possible scenarios:A, S, RO, RA");
 		System.exit(0);
 	}
+	
+	//Random Generators
 	
 	public static String randomStringGen()	{
 		String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -65,6 +70,8 @@ public class DataGenerator {
 			list.add(randString);
 		}
 	}
+	
+	//Print Operations
 	
 	public static void printAdd(ArrayList<String> list, PrintWriter writer)	{
 		for(String i : list)	{
