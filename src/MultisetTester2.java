@@ -1,5 +1,5 @@
 import java.io.*;
-import java.util.*;
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 
 /**
@@ -41,6 +41,8 @@ public class MultisetTester2
 		int lineNum = 1;
 		boolean bQuit = false;
 		
+		long totalTime = 0;
+		
 		// continue reading in commands until we either receive the quit signal or there are no more input commands
 		while (!bQuit && (line = inReader.readLine()) != null) {
 			String[] tokens = line.split(" ");
@@ -60,9 +62,10 @@ public class MultisetTester2
 					if (tokens.length == 2) {
 						long startTime = System.nanoTime();
 						multiset.add(tokens[1]);
-						long endTime = System.nanoTime();
-						long operationTime = endTime - startTime;
-						long totalTime = 0;
+						long operationTime = System.nanoTime() - startTime;
+						System.out.println(operationTime);
+						
+						//System.out.println(NANOSECONDS.toSeconds(operationTime));
 						totalTime += operationTime;
 					}
 					else {
@@ -131,7 +134,7 @@ public class MultisetTester2
 		String implementationType = args[0];
 		
 		String searchOutFilename = null;
-		if (args.length == 2) {
+		if (args.length == 3) {
 			searchOutFilename = args[2];
 		}
 		
