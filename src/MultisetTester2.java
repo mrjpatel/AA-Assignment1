@@ -41,7 +41,10 @@ public class MultisetTester2
 		int lineNum = 1;
 		boolean bQuit = false;
 		
-		long totalTime = 0;
+		long startTime;
+		long operationTime;
+		long totalAddTime = 0;
+		long totalRemTime = 0;
 		
 		// continue reading in commands until we either receive the quit signal or there are no more input commands
 		while (!bQuit && (line = inReader.readLine()) != null) {
@@ -60,13 +63,11 @@ public class MultisetTester2
 				// add
 				case "A":
 					if (tokens.length == 2) {
-						long startTime = System.nanoTime();
+						startTime = System.nanoTime();
 						multiset.add(tokens[1]);
-						long operationTime = System.nanoTime() - startTime;
-						System.out.println(operationTime);
-						
+						operationTime = System.nanoTime() - startTime;
 						//System.out.println(NANOSECONDS.toSeconds(operationTime));
-						totalTime += operationTime;
+						totalAddTime += operationTime;
 					}
 					else {
 						System.err.println(lineNum + ": not enough tokens.");
@@ -96,7 +97,10 @@ public class MultisetTester2
 				// remove all instances
 				case "RA":
 					if (tokens.length == 2) {
+						startTime = System.nanoTime();
 						multiset.removeAll(tokens[1]);
+						operationTime = System.nanoTime() - startTime;
+						totalRemTime += operationTime;
 					}
 					else {
 						System.err.println(lineNum + ": not enough tokens.");
@@ -116,7 +120,10 @@ public class MultisetTester2
 
 			lineNum++;
 		}
-
+		
+		System.out.println("Total ADD time: " + totalAddTime);
+		System.out.println("Total REMOVE time: " + totalRemTime);
+		
 	} // end of processOperations() 
 
 
