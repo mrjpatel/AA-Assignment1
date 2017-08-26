@@ -15,64 +15,44 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
 	
 	
 	public void add(T item) {
-		Node<T> newNode;
-		Node<T> cNode;
 		
-		//adding value at the start of linked list
-		if(mHead == null){
-			mHead = new Node<T>(item);
-			mTail = mHead;
+		Node<T> cNode = mHead;
+		Node<T> newNode = new Node<T> (item);
+				
+		if(mHead == null || mHead.compareTo(item) > 0){
+			newNode.setNext(mHead);
+			mHead = newNode;
 			mSize++;
 			return;
 		}
-		
-		cNode = mHead;
-		if(item.equals(cNode.getValue()))	{
-			cNode.setCount(cNode.getCount() + 1);
-			return;
-		}
-		
-		while(cNode.getNext() != null){
-			cNode = cNode.getNext();
-			if(item.equals(cNode.getValue()))	{
-				cNode.setCount(cNode.getCount() + 1);
-				return;
+		else{
+			while(cNode != null){
+				if(item.equals(cNode.getValue()))	{
+					cNode.setCount(cNode.getCount() + 1);
+					return;
+				}
+				cNode = cNode.getNext();
 			}
+			
+			cNode = mHead;
+			while(cNode.getNext() != null && cNode.getNext().compareTo(item) > 0){
+				cNode = cNode.getNext();
+				newNode.setNext(cNode.getNext());
+				cNode.setNext(newNode);
+				mSize++;
+			}
+			
+			if(mHead.compareTo(item) < 0){
+				newNode = new Node<T>(item, cNode);	
+				cNode.setNext(newNode);
+				mTail = newNode;
+				mSize++;
+			}
+			
 		}
-		
-		newNode = new Node<T>(item, cNode);	
-		cNode.setNext(newNode);
-		mTail = newNode;
-		mSize++;
-		
-		sort();
+		return;
 		
 	} // end of add()
-	
-	public void sort() {
-
-		Node<T> cNode = mHead;
-		
-		while(cNode != null){
-			Node <T> smallValue = cNode;
-			
-			for(Node<T> nextNode = cNode; nextNode != null; nextNode = nextNode.getNext()){
-				if (smallValue.getValue().toString().compareTo(nextNode.getValue().toString()) > 0){
-					smallValue = nextNode;
-				}
-				
-				Node<T> temp = new Node<T>(cNode.getValue());
-				int tempCount = cNode.getCount();
-				
-				cNode.setValue(smallValue.getValue());
-				cNode.setCount(smallValue.getCount());
-				
-				smallValue.setValue(temp.getValue());
-				smallValue.setCount(tempCount);
-			}
-			cNode = cNode.getNext();
-		}
-	}
 	
 	public int search(T item) {		
 		int count = 0;
@@ -93,7 +73,7 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
 			}
         }
     		return count;
-    		
+    				
 	} // end of add()
 	
 	
@@ -190,14 +170,13 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
 	
 	public void print(PrintStream out) {
 		Node<T> cNode = mHead;
-		
 		for(int i = 0; i < mSize; i++) {
 			out.println(cNode.getValue() + " | " + cNode.getCount());
 	   		cNode = cNode.getNext();
 		}
 	} // end of print()
 	
-	private class Node<T>
+	private class Node<T> implements Comparable<T>
 	{
 		/** Value of node. */
 	    private T mValue;
@@ -253,6 +232,12 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
 		public void setCount(int count) {
 			this.count = count;
 		}
+		
+		@Override
+		public int compareTo(T item) {
+			return getValue().toString().compareTo(item.toString());
+		}
+		
 	} // end of inner class Node
 	
 } // end of class SortedLinkedListMultiset
