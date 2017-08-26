@@ -16,10 +16,41 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
 	
 	public void add(T item) {
 		
-		Node<T> cNode = mHead;
 		Node<T> newNode = new Node<T> (item);
+		
+		if(mHead == null)	{
+			mHead = newNode;
+			mTail = newNode;
+			mSize++;
+			return;
+		} else if (mHead.compareTo(item) > 0)	{
+			newNode.setNext(mHead);
+			mHead.setPrev(newNode);
+			mHead = newNode;
+			mSize++;
+			return;
+		} else	{
+			Node<T> prevNode = mHead;
+			Node<T> currentNode = mHead.getNext();
+			while(currentNode != null && prevNode.compareTo(item) > currentNode.compareTo(item) )	{
+				prevNode = currentNode;
+				currentNode = currentNode.getNext();
+			}
+			if(currentNode == null) {
+				prevNode.setNext(newNode);
+				newNode.setPrev(prevNode);
+				mSize++;
+			} else	{
+				prevNode.setNext(newNode);
+				currentNode.setPrev(newNode);
+				newNode.setPrev(prevNode);
+				newNode.setNext(currentNode);
+				mSize++;
+			}
+			return;
+		}
 				
-		if(mHead == null || mHead.compareTo(item) > 0){
+	/*	if(mHead == null || mHead.compareTo(item) > 0){
 			newNode.setNext(mHead);
 			mHead = newNode;
 			mSize++;
@@ -50,7 +81,7 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
 			}
 			
 		}
-		return;
+		return;*/
 		
 	} // end of add()
 	
