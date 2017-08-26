@@ -48,13 +48,13 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
 			if(currentNode == null) {
 				prevNode.setNext(newNode);
 				newNode.setPrev(prevNode);
+				mTail = newNode;
 			} else	{
 				prevNode.setNext(newNode);
 				currentNode.setPrev(newNode);
 				newNode.setPrev(prevNode);
 				newNode.setNext(currentNode);
 			}
-			mTail = newNode;
 			mSize++;
 			
 			return;
