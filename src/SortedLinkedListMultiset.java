@@ -41,57 +41,25 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
 		} else	{
 			Node<T> prevNode = mHead;
 			Node<T> currentNode = mHead.getNext();
-			while(currentNode != null && prevNode.compareTo(item) > currentNode.compareTo(item) )	{
+			while(currentNode != null && prevNode.compareTo(currentNode.getValue()) > prevNode.compareTo(item) )	{
 				prevNode = currentNode;
 				currentNode = currentNode.getNext();
 			}
 			if(currentNode == null) {
 				prevNode.setNext(newNode);
 				newNode.setPrev(prevNode);
-				mSize++;
 			} else	{
 				prevNode.setNext(newNode);
 				currentNode.setPrev(newNode);
 				newNode.setPrev(prevNode);
 				newNode.setNext(currentNode);
-				mSize++;
 			}
+			mTail = newNode;
+			mSize++;
+			
 			return;
 		}
 				
-	/*	if(mHead == null || mHead.compareTo(item) > 0){
-			newNode.setNext(mHead);
-			mHead = newNode;
-			mSize++;
-			return;
-		}
-		else{
-			while(cNode != null){
-				if(item.equals(cNode.getValue()))	{
-					cNode.setCount(cNode.getCount() + 1);
-					return;
-				}
-				cNode = cNode.getNext();
-			}
-			
-			cNode = mHead;
-			while(cNode.getNext() != null && cNode.getNext().compareTo(item) > 0){
-				cNode = cNode.getNext();
-				newNode.setNext(cNode.getNext());
-				cNode.setNext(newNode);
-				mSize++;
-			}
-			
-			if(mHead.compareTo(item) < 0){
-				newNode = new Node<T>(item, cNode);	
-				cNode.setNext(newNode);
-				mTail = newNode;
-				mSize++;
-			}
-			
-		}
-		return;*/
-		
 	} // end of add()
 	
 	public int search(T item) {		
