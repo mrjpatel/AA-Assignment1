@@ -45,6 +45,7 @@ public class MultisetTester2
 		long operationTime;
 		long totalAddTime = 0;
 		long totalRemTime = 0;
+		long totalSeaTime = 0;
 		
 		// continue reading in commands until we either receive the quit signal or there are no more input commands
 		while (!bQuit && (line = inReader.readLine()) != null) {
@@ -76,7 +77,10 @@ public class MultisetTester2
 				// search
 				case "S":
 					if (tokens.length == 2) {
+						startTime = System.nanoTime();
 						int foundNumber = multiset.search(tokens[1]);
+						operationTime = System.nanoTime() - startTime;
+						totalSeaTime += operationTime;
 						searchOutWriter.println(tokens[1] + " " + foundNumber);
 					}
 					else {
@@ -123,7 +127,7 @@ public class MultisetTester2
 		
 		System.out.println("Total ADD time: " + totalAddTime);
 		System.out.println("Total REMOVE time: " + totalRemTime);
-		
+		System.out.println("Total SEARCH time: " + totalSeaTime);
 	} // end of processOperations() 
 
 
