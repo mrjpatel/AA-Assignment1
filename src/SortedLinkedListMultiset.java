@@ -17,6 +17,15 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
 	public void add(T item) {
 		
 		Node<T> newNode = new Node<T> (item);
+		Node<T> cNode = mHead;
+		
+		while(cNode != null){
+			if(item.equals(cNode.getValue())){
+				cNode.setCount(cNode.getCount() + 1);
+				return;
+			}
+			cNode = cNode.getNext();
+		}
 		
 		if(mHead == null)	{
 			mHead = newNode;
