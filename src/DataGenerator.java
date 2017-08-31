@@ -22,12 +22,12 @@ public class DataGenerator {
 		double numOfScen = Double.parseDouble(args[1]) /100;
 		int indexes = (int)Math.floor(numOfScen * numOfStr);
 		
+		//Produce random string into array
 		randStringArr(rand, numOfStr);
-		
-		
-		//Search
-		
+				
 		ArrayList<String> randSc = new ArrayList<String>();
+		
+		//If there is a 4th argument, add the scenario and search for a ratio
 		
 		if(args[3] != null)	{
 			for(String i : rand) {
@@ -38,14 +38,14 @@ public class DataGenerator {
 			Random rnd = new Random();
 			for(int i = 0; i < indexSea; i++)	{
 				String x = rand.get(rnd.nextInt(rand.size()));
-				randomSeaGen(randSc, x);
+				randomScenGen(randSc, x, "S");
 			}
 		}
 		
+		//randomize scenarios
 		Collections.shuffle(randSc);
 		
-		//end
-		
+		//print them all to a txt file
 		try {
 			PrintWriter writer = new PrintWriter(fileNameAdd);
 			printAdd(rand, writer);
@@ -79,6 +79,7 @@ public class DataGenerator {
 	//Random Generators
 	
 	public static String randomStringGen()	{
+		//Code adapted from https://stackoverflow.com/questions/20536566/creating-a-random-string-with-a-z-and-0-9-in-java
 		String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         StringBuilder randstr = new StringBuilder();
         Random rnd = new Random();
@@ -90,29 +91,11 @@ public class DataGenerator {
         return str;
 	}
 	
-	//Hack functions for search...
-	
-	/*public static void randomScenGen(ArrayList<String> list, ArrayList<String> dest, String scen)	{
-        StringBuilder randstr = new StringBuilder();
-        for(String i : list)	{
-        	randstr.append(scen + " ");
-        	randstr.append(i);
-        	String str = randstr.toString();
-        	dest.add(str);
-		}
-  	}*/
+	//Generate scenarios 
 	
 	public static void randomScenGen(ArrayList<String> dest, String key, String scen)	{
 		StringBuilder randstr = new StringBuilder();
 		randstr.append(scen + " ");
-    	randstr.append(key);
-    	String str = randstr.toString();
-    	dest.add(str);
-	}
-	
-	public static void randomSeaGen(ArrayList<String> dest, String key)	{
-		StringBuilder randstr = new StringBuilder();
-		randstr.append("S ");
     	randstr.append(key);
     	String str = randstr.toString();
     	dest.add(str);

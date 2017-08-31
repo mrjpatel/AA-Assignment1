@@ -33,6 +33,7 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
 			mSize++;
 			return;
 		} else if (mHead.compareTo(item) > 0)	{
+			//add to head if > 0
 			newNode.setNext(mHead);
 			mHead.setPrev(newNode);
 			mHead = newNode;
@@ -41,15 +42,18 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
 		} else	{
 			Node<T> prevNode = mHead;
 			Node<T> currentNode = mHead.getNext();
+			//compare prev and current with prev and item
 			while(currentNode != null && prevNode.compareTo(currentNode.getValue()) > prevNode.compareTo(item) )	{
 				prevNode = currentNode;
 				currentNode = currentNode.getNext();
 			}
+			//set if last node
 			if(currentNode == null) {
 				prevNode.setNext(newNode);
 				newNode.setPrev(prevNode);
 				mTail = newNode;
 			} else	{
+				//set if middle of linkedlist
 				prevNode.setNext(newNode);
 				currentNode.setPrev(newNode);
 				newNode.setPrev(prevNode);

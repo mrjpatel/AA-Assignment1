@@ -94,12 +94,14 @@ public class BstMultiset<T> extends Multiset<T>
 		node = mHead;
 		
 		while(node != null)	{
+			//if found, increment by 1
 			if(item.equals(node.getValue()))	{
 				if(node.getCount() > 1)	{
 					node.setCount(node.getCount() - 1);
 					return;
 				}
 				else	{
+					//remove if there is only 1
 					removeAll(item);
 					return;
 				}
@@ -142,6 +144,7 @@ public class BstMultiset<T> extends Multiset<T>
 			return node;
 		}
 		
+		//recursion down tree
 		if(node.compareTo(item) < 0)	{
 			node.setLeft(removeNodes(node.getLeft(), item));
 		}
@@ -149,13 +152,14 @@ public class BstMultiset<T> extends Multiset<T>
 			node.setRight(removeNodes(node.getRight(), item));
 		}
 		else	{
+			//1 child/no child
 			if(node.getRight() == null)	{
 				return node.getLeft();
 			}
 			else if (node.getLeft() == null)	{
 				return node.getRight();
 			}
-			
+			//2 child, get min node
 			tempNode = minNode(node.getRight());
 			node.setValue(tempNode.getValue());
 			node.setCount(tempNode.getCount());
@@ -167,6 +171,7 @@ public class BstMultiset<T> extends Multiset<T>
 			
 	}
 	
+	//get minimum node
 	public Node<T> minNode(Node<T> node)	{
 		while(node.getLeft() != null)	{
 			node = node.getLeft();
