@@ -3,5 +3,5 @@
 An analysis of different data structures operations
 
 # Contributors
-Japan Patel
+Japan Patel,
 Danny Ho
